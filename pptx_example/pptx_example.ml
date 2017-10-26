@@ -16,7 +16,11 @@ let tast_mapper =
         ->
         Printf.printf "Ident %S\n%!" (Path.name path);
           expr
-      | other -> default.expr mapper other); }
+      | {exp_desc = Texp_constant (Const_int n) } -> {expr  with exp_desc = Texp_constant (Const_int (2*n)) }
+      | other -> default.expr mapper other); 
+    value_binding = fun _ vb ->
+      {vb with vb_attributes =  [ (Location.mknoloc "asdf", PStr []) ] }
+ }
 
 let () =
   Typemod.ImplementationHooks.add_hook "pptx_example"
